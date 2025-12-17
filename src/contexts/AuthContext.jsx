@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { ID } from 'appwrite';
-import { account } from '../lib/appwrite';
+import { account, OAuthProvider } from '../lib/appwrite';
 
 const AuthContext = createContext(null);
 
@@ -93,6 +93,14 @@ export function AuthProvider({ children }) {
     }
   }
 
+  function loginWithGoogle() {
+    account.createOAuth2Session(
+      OAuthProvider.Google,
+      window.location.origin + '/', // Success redirect
+      window.location.origin + '/login' // Failure redirect
+    );
+  }
+
   // Check if user has admin label
   const isAdmin = user?.labels?.includes('admin') || false;
 
@@ -102,6 +110,7 @@ export function AuthProvider({ children }) {
     isAuthenticated: !!user,
     isAdmin,
     login,
+    loginWithGoogle,
     register,
     logout,
     updateProfile,

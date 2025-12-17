@@ -1,4 +1,4 @@
-import { Client, Account, Databases } from 'appwrite';
+import { Client, Account, Databases, OAuthProvider } from 'appwrite';
 
 // Appwrite Configuration
 const config = {
@@ -24,7 +24,7 @@ export const account = new Account(client);
 export const databases = new Databases(client);
 
 // Export client for realtime subscriptions
-export { client };
+export { client, OAuthProvider };
 
 // Export config for use in services
 export const appwriteConfig = {
