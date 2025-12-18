@@ -26,6 +26,13 @@ export function AuthProvider({ children }) {
 
   async function login(email, password) {
     try {
+      // Delete any existing session before creating a new one
+      try {
+        await account.deleteSession('current');
+      } catch {
+        // No existing session, continue with login
+      }
+
       await account.createEmailPasswordSession(email, password);
       const session = await account.get();
       setUser(session);
@@ -40,6 +47,13 @@ export function AuthProvider({ children }) {
 
   async function register(email, password, name) {
     try {
+      // Delete any existing session before registration
+      try {
+        await account.deleteSession('current');
+      } catch {
+        // No existing session, continue with registration
+      }
+
       await account.create(ID.unique(), email, password, name);
       // Automatically log in after registration
       await account.createEmailPasswordSession(email, password);
